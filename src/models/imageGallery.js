@@ -5,6 +5,7 @@ const imageGallerySchema = new Schema(
   {
     user_id: String,
     device_id: String,
+    alt: String,
     plant_image: {
       data: Buffer,
       contentType: String,
