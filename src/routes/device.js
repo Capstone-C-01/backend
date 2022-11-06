@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Device from "../models/device";
+import Device from "../../models/device";
 
 const router = Router();
 

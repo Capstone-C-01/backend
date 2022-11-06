@@ -1,6 +1,6 @@
 import { Router } from "express";
-import Device from "../models/device";
-import SystemControl from "../models/systemControl";
+import Device from "../../models/device";
+import SystemControl from "../../models/systemControl";
 
 const router = Router();
 

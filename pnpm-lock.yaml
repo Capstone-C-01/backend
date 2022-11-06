@@ -4,6 +4,8 @@ specifiers:
   '@babel/core': ^7.20.2
   '@babel/node': ^7.20.2
   '@babel/preset-env': ^7.20.2
+  '@types/cors': ^2.8.12
+  '@types/dotenv': ^8.2.0
   '@types/ejs': ^3.1.1
   '@types/express': ^4.17.14
   '@types/express-session': ^1.17.5
@@ -35,6 +37,8 @@ devDependencies:
   '@babel/core': 7.20.2
   '@babel/node': 7.20.2_@babel+core@7.20.2
   '@babel/preset-env': 7.20.2_@babel+core@7.20.2
+  '@types/cors': 2.8.12
+  '@types/dotenv': 8.2.0
   '@types/ejs': 3.1.1
   '@types/express': 4.17.14
   '@types/express-session': 1.17.5
@@ -1274,6 +1278,17 @@ packages:
       '@types/node': 18.11.9
     dev: true
 
+  /@types/cors/2.8.12:
+    resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
+    dev: true
+
+  /@types/dotenv/8.2.0:
+    resolution: {integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==}
+    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
+    dependencies:
+      dotenv: 8.6.0
+    dev: true
+
   /@types/ejs/3.1.1:
     resolution: {integrity: sha512-RQul5wEfY7BjWm0sYY86cmUN/pcXWGyVxWX93DFFJvcrxax5zKlieLwA3T77xJGwNcZW0YW6CYG70p1m8xPFmA==}
     dev: true
@@ -1761,7 +1776,6 @@ packages:
   /dotenv/8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
-    dev: false
 
   /duplexify/4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
