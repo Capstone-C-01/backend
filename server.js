@@ -1,14 +1,17 @@
-var express = require('express');
-var env = require('dotenv').config()
-var ejs = require('ejs');
-var path = require('path');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+import express from 'express';
+import session from 'express-session';
+import cors from "cors";
+import { json, urlencoded } from 'body-parser';
+import { connect, connection } from 'mongoose';
 
-mongoose.connect('mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority', {
+import "dotenv/config";
+
+import index from './routes/index';
+
+const MongoStore = require('connect-mongo')(session);
+
+const app = express();
+connect('mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
@@ -19,10 +22,12 @@ mongoose.connect('mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.m
   }
 });
 
-var db = mongoose.connection;
+const db = connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
+
+app.use(cors());
 
 app.use(session({
   secret: 'work hard',
@@ -33,20 +38,14 @@ app.use(session({
   })
 }));
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');	
+app.use(json());
+app.use(urlencoded({ extended: false }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(express.static(__dirname + '/views'));
-
-var index = require('./routes/index');
 app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error('File Not Found');
+  const err = new Error('File Not Found');
   err.status = 404;
   next(err);
 });
