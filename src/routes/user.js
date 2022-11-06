@@ -3,7 +3,7 @@ import User from "../../models/user";
 
 const router = Router();
 
-router.post("/", function (req, res, next) {
+router.post("/", function (req, res) {
   console.log(req.body);
   var personInfo = req.body;
 
@@ -35,7 +35,7 @@ router.post("/", function (req, res, next) {
               passwordConf: personInfo.passwordConf,
             });
 
-            newPerson.save(function (err, Person) {
+            newPerson.save(function (err) {
               if (err) console.log(err);
               else console.log("Success");
             });
@@ -53,7 +53,7 @@ router.post("/", function (req, res, next) {
   }
 });
 
-router.post("/login", function (req, res, next) {
+router.post("/login", function (req, res) {
   //console.log(req.body);
   User.findOne({ email: req.body.email }, function (err, data) {
     if (data) {
@@ -71,7 +71,7 @@ router.post("/login", function (req, res, next) {
   });
 });
 
-router.get("/profile", function (req, res, next) {
+router.get("/profile", function (req, res) {
   console.log("profile");
   User.findOne({ unique_id: req.session.userId }, function (err, data) {
     console.log("data");
@@ -99,7 +99,7 @@ router.get("/logout", function (req, res, next) {
   }
 });
 
-router.post("/forgetpass", function (req, res, next) {
+router.post("/forgetpass", function (req, res) {
   //console.log('req.body');
   //console.log(req.body);
   User.findOne({ email: req.body.email }, function (err, data) {
@@ -112,7 +112,7 @@ router.post("/forgetpass", function (req, res, next) {
         data.password = req.body.password;
         data.passwordConf = req.body.passwordConf;
 
-        data.save(function (err, Person) {
+        data.save(function (err) {
           if (err) console.log(err);
           else console.log("Success");
           res.send({ Success: "Password changed!" });
