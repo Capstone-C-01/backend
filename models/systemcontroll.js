@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import * as mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-systemcontrollSchema = new Schema({
+const systemcontrollSchema = new Schema(
+  {
     user_id: String,
     device_id: String,
     lamp_status: String,
@@ -10,11 +11,13 @@ systemcontrollSchema = new Schema({
     tds_min: Number,
     tds_max: Number,
     spray_interval: Date,
-    spray_duration: Date
-},{
-    timestamps: true
-});
+    spray_duration: Date,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-SystemControll = mongoose.model('SystemControll', systemcontrollSchema);
+const SystemControll = mongoose.model("SystemControll", systemcontrollSchema);
 
 module.exports = SystemControll;
