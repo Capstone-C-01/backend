@@ -30,7 +30,6 @@ router.post("/add", function (req, res) {
   const newDeviceSensor = new DeviceSensor({
     user_id: deviceSensorData.user_id,
     device_id: deviceSensorData.device_id,
-    placement: deviceSensorData.placement,
     lamp_status: deviceSensorData.lamp_status,
     water_level: deviceSensorData.water_level,
     ph_data: deviceSensorData.ph_data,

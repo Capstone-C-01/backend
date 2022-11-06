@@ -10,8 +10,12 @@ router.get("/", function (req, res) {
       res.send({ Status: "Can't found" });
     } else {
       res.send({
-        user_id: data._id,
+        user_id: data.user_id,
         device_id: data.device_id,
+        plant_name: data.plant_name,
+        date_planted: data.date_planted,
+        plant_count: data.plant_count,
+        installment: data.installment,
         lamp_status: data.lamp_status,
         ph_min: data.ph_min,
         ph_max: data.ph_max,
@@ -29,6 +33,10 @@ router.post("/add", function (req, res) {
   const newSystemControll = new SystemControl({
     user_id: systemControlData.user_id,
     device_id: systemControlData.device_id,
+    plant_name: systemControlData.plant_name,
+    date_planted: systemControlData.date_planted,
+    plant_count: systemControlData.plant_count,
+    installment: systemControlData.installment,
     lamp_status: systemControlData.lamp_status,
     ph_min: systemControlData.ph_min,
     ph_max: systemControlData.ph_max,
@@ -53,12 +61,19 @@ router.get("/reportdata", function (req, res) {
         res.send({ Status: "Can't found" });
       } else {
         res.send({
-          user_id: data._id,
+          user_id: data.user_id,
           device_id: data.device_id,
+          plant_name: data.plant_name,
+          date_planted: data.date_planted,
+          plant_count: data.plant_count,
+          installment: data.installment,
           lamp_status: data.lamp_status,
-          water_level: data.water_level,
-          ph_data: data.ph_data,
-          tds_data: data.tds_data,
+          ph_min: data.ph_min,
+          ph_max: data.ph_max,
+          tds_min: data.tds_min,
+          tds_max: data.tds_max,
+          spray_interval: data.spray_interval,
+          spray_duration: data.spray_duration,
         });
       }
     }

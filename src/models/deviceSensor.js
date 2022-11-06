@@ -5,7 +5,6 @@ const deviceSensorSchema = new Schema(
   {
     user_id: String,
     device_id: String,
-    placement: String,
     lamp_status: String,
     water_level: Number,
     ph_data: Number,
