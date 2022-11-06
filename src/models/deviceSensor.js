@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const deviceSchema = new Schema(
+const deviceSensorSchema = new Schema(
   {
     user_id: String,
     device_id: String,
@@ -16,6 +16,6 @@ const deviceSchema = new Schema(
   }
 );
 
-const Device = mongoose.model("Device", deviceSchema);
+const DeviceSensor = mongoose.model("DeviceSensor", deviceSensorSchema);
 
-export default Device;
+export default DeviceSensor;

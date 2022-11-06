@@ -3,17 +3,20 @@ import session from "express-session";
 import cors from "cors";
 import { json, urlencoded } from "body-parser";
 import { connect, connection } from "mongoose";
+import * as mqtt from "mqtt";
 
 import "dotenv/config";
 
 const MongoStore = require("connect-mongo")(session);
 
 const app = express();
+
 connect(
   "mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: "capstone-dev",
   },
   (err) => {
     if (!err) {
@@ -27,6 +30,34 @@ connect(
 const db = connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {});
+
+const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
+const mqttConnectUrl = `mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`;
+const topics = [
+  "/dev/sensor/test-1",
+  "/dev/sensor/test-2",
+  "/dev/sensor/test-3",
+];
+
+const mqttClient = mqtt.connect(mqttConnectUrl, {
+  clientId,
+  clean: true,
+  connectTimeout: 4000,
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
+  reconnectPeriod: 1000,
+});
+
+mqttClient.on("connect", () => {
+  console.log("Connected to MQTT Server");
+  mqttClient.subscribe(topics, () => {
+    console.log(`Subscribe to topic '${topics}'`);
+  });
+});
+
+mqttClient.on("message", (topic, payload) => {
+  console.log("Received Message:", topic, payload.toString());
+});
 
 app.use(cors());
 

@@ -5,18 +5,18 @@ const router = Router();
 
 router.post("/", function (req, res) {
   console.log(req.body);
-  var personInfo = req.body;
+  var personData = req.body;
 
   if (
-    !personInfo.email ||
-    !personInfo.username ||
-    !personInfo.password ||
-    !personInfo.passwordConf
+    !personData.email ||
+    !personData.username ||
+    !personData.password ||
+    !personData.passwordConf
   ) {
     res.send();
   } else {
-    if (personInfo.password == personInfo.passwordConf) {
-      User.findOne({ email: personInfo.email }, function (err, data) {
+    if (personData.password == personData.passwordConf) {
+      User.findOne({ email: personData.email }, function (err, data) {
         if (!data) {
           var c;
           User.findOne({}, function (err, data) {
@@ -29,10 +29,10 @@ router.post("/", function (req, res) {
 
             var newPerson = new User({
               unique_id: c,
-              email: personInfo.email,
-              username: personInfo.username,
-              password: personInfo.password,
-              passwordConf: personInfo.passwordConf,
+              email: personData.email,
+              username: personData.username,
+              password: personData.password,
+              passwordConf: personData.passwordConf,
             });
 
             newPerson.save(function (err) {

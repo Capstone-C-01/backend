@@ -25,18 +25,19 @@ router.get("/", function (req, res) {
 });
 
 router.post("/add", function (req, res) {
-  let systemcontrollInfo = req.body;
-  var newSystemControll = new SystemControl({
-    user_id: systemcontrollInfo.user_id,
-    device_id: systemcontrollInfo.device_id,
-    lamp_status: systemcontrollInfo.lamp_status,
-    ph_min: systemcontrollInfo.ph_min,
-    ph_max: systemcontrollInfo.ph_max,
-    tds_min: systemcontrollInfo.tds_min,
-    tds_max: systemcontrollInfo.tds_max,
-    spray_interval: systemcontrollInfo.spray_interval,
-    spray_duration: systemcontrollInfo.spray_duration,
+  const systemControlData = req.body;
+  const newSystemControll = new SystemControl({
+    user_id: systemControlData.user_id,
+    device_id: systemControlData.device_id,
+    lamp_status: systemControlData.lamp_status,
+    ph_min: systemControlData.ph_min,
+    ph_max: systemControlData.ph_max,
+    tds_min: systemControlData.tds_min,
+    tds_max: systemControlData.tds_max,
+    spray_interval: systemControlData.spray_interval,
+    spray_duration: systemControlData.spray_duration,
   });
+
   newSystemControll.save(function (err, SystemControll) {
     if (err) res.send(err);
     else res.send(SystemControll);

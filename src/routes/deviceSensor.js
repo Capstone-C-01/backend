@@ -1,10 +1,10 @@
 import { Router } from "express";
-import Device from "../../models/device";
+import DeviceSensor from "../../models/deviceSensor";
 
 const router = Router();
 
 router.get("/", function (req, res) {
-  Device.findOne(
+  DeviceSensor.findOne(
     { user_id: req.body.user_id, device_id: req.body.device_id },
     function (err, data) {
       if (!data) {
@@ -25,18 +25,19 @@ router.get("/", function (req, res) {
 });
 
 router.post("/add", function (req, res) {
-  let deviceInfo = req.body;
+  const deviceSensorData = req.body;
 
-  var newDevice = new Device({
-    user_id: deviceInfo.user_id,
-    device_id: deviceInfo.device_id,
-    placement: deviceInfo.placement,
-    lamp_status: deviceInfo.lamp_status,
-    water_level: deviceInfo.water_level,
-    ph_data: deviceInfo.ph_data,
-    tds_data: deviceInfo.tds_data,
+  const newDeviceSensor = new DeviceSensor({
+    user_id: deviceSensorData.user_id,
+    device_id: deviceSensorData.device_id,
+    placement: deviceSensorData.placement,
+    lamp_status: deviceSensorData.lamp_status,
+    water_level: deviceSensorData.water_level,
+    ph_data: deviceSensorData.ph_data,
+    tds_data: deviceSensorData.tds_data,
   });
-  newDevice.save(function (err, Device) {
+
+  newDeviceSensor.save(function (err, Device) {
     if (err) res.send(err);
     else res.send(Device);
   });
