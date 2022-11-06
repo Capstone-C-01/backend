@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const setsystemcontrollSchema = new Schema(
+const systemControlSchema = new Schema(
   {
     user_id: String,
     device_id: String,
@@ -20,9 +20,6 @@ const setsystemcontrollSchema = new Schema(
   }
 );
 
-const SetSystemControll = mongoose.model(
-  "SetSystemControll",
-  setsystemcontrollSchema
-);
+const SystemControl = mongoose.model("SystemControl", systemControlSchema);
 
-module.exports = SetSystemControll;
+export default SystemControl;

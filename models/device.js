@@ -18,4 +18,4 @@ const deviceSchema = new Schema(
 
 const Device = mongoose.model("Device", deviceSchema);
 
-module.exports = Device;
+export default Device;

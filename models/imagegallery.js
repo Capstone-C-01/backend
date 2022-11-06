@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const imagegallerySchema = new Schema({
+const imageGallerySchema = new Schema({
   user_id: String,
   device_id: String,
   plant_image: {
@@ -11,6 +11,6 @@ const imagegallerySchema = new Schema({
   },
 });
 
-const ImageGallery = mongoose.model("ImageGallery", imagegallerySchema);
+const ImageGallery = mongoose.model("ImageGallery", imageGallerySchema);
 
-module.exports = ImageGallery;
+export default ImageGallery;

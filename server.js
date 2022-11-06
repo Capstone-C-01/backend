@@ -1,51 +1,56 @@
-import express from 'express';
-import session from 'express-session';
+import express from "express";
+import session from "express-session";
 import cors from "cors";
-import { json, urlencoded } from 'body-parser';
-import { connect, connection } from 'mongoose';
+import { json, urlencoded } from "body-parser";
+import { connect, connection } from "mongoose";
 
 import "dotenv/config";
 
-import index from './routes/index';
-
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require("connect-mongo")(session);
 
 const app = express();
-connect('mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}, (err) => {
-  if (!err) {
-    console.log('MongoDB Connection Succeeded.');
-  } else {
-    console.log('Error in DB connection : ' + err);
+connect(
+  "mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err) => {
+    if (!err) {
+      console.log("MongoDB Connection Succeeded.");
+    } else {
+      console.log("Error in DB connection : " + err);
+    }
   }
-});
+);
 
 const db = connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-});
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {});
 
 app.use(cors());
 
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
+app.use(
+  session({
+    secret: "work hard",
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: db,
+    }),
   })
-}));
+);
 
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-app.use('/', index);
+app.use("/", (req, res) => {
+  res.send("Hello, it's the backend of Capstone C-01");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  const err = new Error('File Not Found');
+  const err = new Error("File Not Found");
   err.status = 404;
   next(err);
 });
@@ -57,8 +62,7 @@ app.use(function (err, req, res, next) {
   res.send(err.message);
 });
 
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  console.log('Server is started on http://127.0.0.1:'+PORT);
+  console.log("Server is started on http://127.0.0.1:" + PORT);
 });
