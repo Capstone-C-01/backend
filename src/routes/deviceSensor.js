@@ -1,27 +1,29 @@
 import { Router } from "express";
-import DeviceSensor from "../../models/deviceSensor";
+import DeviceSensor from "../models/deviceSensor";
 
 const router = Router();
 
 router.get("/", function (req, res) {
-  DeviceSensor.findOne(
-    { user_id: req.body.user_id, device_id: req.body.device_id },
-    function (err, data) {
-      if (!data) {
-        res.send({ Status: "Can't found" });
-      } else {
-        res.send({
-          user_id: data._id,
-          device_id: data.device_id,
-          placement: data.placement,
-          lamp_status: data.lamp_status,
-          water_level: data.water_level,
-          ph_data: data.ph_data,
-          tds_data: data.tds_data,
-        });
-      }
-    }
-  );
+  req.mqttClient.publish("dev/sensors", "From SENSORS");
+  res.send("From sensors");
+  // DeviceSensor.findOne(
+  //   { user_id: req.body.user_id, device_id: req.body.device_id },
+  //   function (err, data) {
+  //     if (!data) {
+  //       res.send({ Status: "Can't found" });
+  //     } else {
+  //       res.send({
+  //         user_id: data._id,
+  //         device_id: data.device_id,
+  //         placement: data.placement,
+  //         lamp_status: data.lamp_status,
+  //         water_level: data.water_level,
+  //         ph_data: data.ph_data,
+  //         tds_data: data.tds_data,
+  //       });
+  //     }
+  //   }
+  // );
 });
 
 router.post("/add", function (req, res) {
