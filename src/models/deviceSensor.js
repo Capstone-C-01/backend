@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 const deviceSensorSchema = new Schema(
   {
-    user_id: String,
-    device_id: String,
-    lamp_status: String,
-    water_level: Number,
-    ph_data: Number,
-    tds_data: Number,
+    user_id: { type: String, required: true },
+    device_id: { type: String, required: true },
+    lamp_status: { type: String, required: true },
+    water_level: { type: Number, required: true },
+    ph_data: { type: Number, required: true },
+    tds_data: { type: Number, required: true },
   },
   {
     timestamps: true,
