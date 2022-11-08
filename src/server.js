@@ -50,30 +50,26 @@ app.use(
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-const mqttClient = setupMQTT("dev/sensors");
+const mqttClient = setupMQTT([
+  "/dev/sensors/add",
+  "/dev/sensors/add/response",
+  "/dev/sensors/control",
+]);
 
 app.use(withMQTT(mqttClient));
-
-app.use("/", (req, res, next) => {
-  next();
-});
 
 app.use("/sensors", routes.deviceSensor);
 app.use("/users", routes.user);
 app.use("/systems", routes.systemControl);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  const err = new Error("File Not Found");
-  err.status = 404;
-  next(err);
+app.use("/", (req, res, next) => {
+  res.send("This is Capstone-C01 BE");
+  next();
 });
 
-// error handler
-// define as the last app.use callback
-app.use(function (err, req, res) {
-  res.status(err.status || 500);
-  res.send(err.message);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+  next();
 });
 
 const PORT = process.env.PORT || 3000;
