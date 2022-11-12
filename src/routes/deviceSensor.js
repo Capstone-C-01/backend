@@ -40,4 +40,20 @@ router.post("/add", function (req, res) {
   });
 });
 
+router.post("/relay", function (req, res) {
+  const mqttClient = req.mqttClient;
+  const relayControl = req.body;
+  // const mqttClient = req.mqttClient;
+  const topic = `dev/${relayControl.device_id}/relay/${relayControl.relay_number}`;
+  const payload = relayControl.status;
+
+  try {
+    mqttClient.publish(topic, payload);
+    res.status(200).send("Success set relay status");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Something wrong when sending data to device");
+  }
+});
+
 export default router;

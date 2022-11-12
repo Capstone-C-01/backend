@@ -54,6 +54,8 @@ const mqttClient = setupMQTT([
   "/dev/sensors/add",
   "/dev/sensors/add/response",
   "/dev/sensors/control",
+  "dev/sensors/tds",
+  "dev/+/relay/+",
 ]);
 
 app.use(withMQTT(mqttClient));
