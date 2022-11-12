@@ -1,5 +1,6 @@
-import user from "./user";
-import deviceSensor from "./deviceSensor";
-import systemControl from "./systemControl";
+import user from "./user.route";
+import deviceSensor from "./deviceSensor.route";
+import systemControl from "./systemControl.route";
+import auth from "./auth.route";
 
-export default { user, deviceSensor, systemControl };
+export default { user, deviceSensor, systemControl, auth };

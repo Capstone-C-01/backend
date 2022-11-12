@@ -1,7 +1,6 @@
 import express from "express";
-import session from "express-session";
 import cors from "cors";
-import { json, urlencoded } from "body-parser";
+import cookieSession from "cookie-session";
 import { connect, connection } from "mongoose";
 
 import "dotenv/config";
@@ -10,9 +9,13 @@ import routes from "./routes";
 import withMQTT from "./middleware/withMQTT";
 import setupMQTT from "./mqtt/mqtt_setup";
 
-const MongoStore = require("connect-mongo")(session);
-
 const app = express();
+
+const corsOption = {
+  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
 
 connect(
   "mongodb+srv://capstone01:satusampaidelapan@cluster-0.zn68d65.mongodb.net/?retryWrites=true&w=majority",
@@ -34,21 +37,18 @@ const db = connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {});
 
-app.use(cors());
+app.use(cors(corsOption));
 
 app.use(
-  session({
-    secret: "work hard",
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: db,
-    }),
+  cookieSession({
+    name: "capstone-c01-session",
+    secret: process.env.COOKIE_SECRET,
+    httpOnly: true,
   })
 );
 
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const mqttClient = setupMQTT([
   "/dev/sensors/add",
@@ -63,6 +63,7 @@ app.use(withMQTT(mqttClient));
 app.use("/sensors", routes.deviceSensor);
 app.use("/users", routes.user);
 app.use("/systems", routes.systemControl);
+app.use("/auth", routes.auth);
 app.use("/", (req, res, next) => {
   res.send("This is Capstone-C01 BE");
   next();
