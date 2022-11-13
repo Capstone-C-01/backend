@@ -3,13 +3,19 @@ const Schema = mongoose.Schema;
 
 const imageGallerySchema = new Schema(
   {
-    user_id: String,
-    device_id: String,
-    alt: String,
-    plant_image: {
-      data: Buffer,
-      contentType: String,
+    user_id: {
+      type: String,
     },
+    device_id: {
+      type: String,
+    },
+    plant_image: {
+      // type: String,
+      // required: true,
+      data: Buffer,
+      contentType: "imgage/png",
+    },
+    uploadedTime : Number,
   },
   { timestamps: true }
 );

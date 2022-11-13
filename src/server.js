@@ -3,6 +3,8 @@ import session from "express-session";
 import cors from "cors";
 import { json, urlencoded } from "body-parser";
 import { connect, connection } from "mongoose";
+import {fs} from 'fs';
+import module from 'path'
 
 import "dotenv/config";
 
@@ -61,6 +63,7 @@ app.use("/", (req, res, next) => {
 app.use("/sensors", routes.deviceSensor);
 app.use("/users", routes.user);
 app.use("/systems", routes.systemControl);
+app.use("/imagegallery", routes.imageGallery);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -80,3 +83,16 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
   console.log("Server is started on http://127.0.0.1:" + PORT);
 });
+
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,'uploads')
+  },
+  filename: (req,file,cb)=>{
+    cb(null,file.originalname)
+  }
+})
+
+const upload = multer({storage:storage})
