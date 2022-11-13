@@ -23,6 +23,7 @@ connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
     dbName: "capstone-dev",
+    useFindAndModify: false,
   },
   (err) => {
     if (!err) {
@@ -50,13 +51,17 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mqttClient = setupMQTT(["dev/+/relay/+", "dev/+/sensors"]);
+const mqttClient = setupMQTT([
+  "dev/+/relay/+",
+  "dev/+/sensors",
+  "dev/+/control",
+]);
 
 app.use(withMQTT(mqttClient));
 
 app.use("/sensors", routes.deviceSensor);
 app.use("/users", routes.user);
-app.use("/systems", routes.systemControl);
+app.use("/control", routes.systemControl);
 app.use("/auth", routes.auth);
 app.use("/", (req, res, next) => {
   res.send("This is Capstone-C01 BE");
