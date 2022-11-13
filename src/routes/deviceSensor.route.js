@@ -1,5 +1,6 @@
 import { Router } from "express";
 import DeviceSensor from "../models/deviceSensor";
+import SystemControl from "../models/systemControl";
 
 const router = Router();
 
@@ -47,7 +48,13 @@ router.post("/relay", function (req, res) {
   const topic = `dev/${relayControl.device_id}/relay/${relayControl.relay_number}`;
   const payload = relayControl.status;
 
+  const query = { device_id: relayControl.device_id };
+  const upsertData = {
+    lamp_status: relayControl.status === "on" ? true : false,
+  };
+
   try {
+    SystemControl.findOneAndUpdate(query, upsertData, { upsert: true });
     mqttClient.publish(topic, payload);
     res.status(200).send("Success set relay status");
   } catch (error) {
