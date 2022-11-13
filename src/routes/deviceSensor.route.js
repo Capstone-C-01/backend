@@ -5,22 +5,14 @@ import SystemControl from "../models/systemControl";
 const router = Router();
 
 router.get("/", function (req, res) {
-  const { user_id, device_id } = req.query;
-
-  DeviceSensor.find(
-    { user_id: user_id, device_id: device_id },
-    function (err, data) {
-      if (data.length <= 0) {
-        res
-          .status(404)
-          .send(
-            `No sensors data found for ${user_id} with device ${device_id}`
-          );
-      } else {
-        res.send(data);
-      }
+  const { device_id } = req.query;
+  DeviceSensor.find({ device_id: device_id }, function (err, data) {
+    if (data.length <= 0) {
+      res.status(404).send(`No sensors data found for device ${device_id}`);
+    } else {
+      res.send(data);
     }
-  );
+  });
 });
 
 router.post("/add", function (req, res) {
@@ -54,7 +46,14 @@ router.post("/relay", function (req, res) {
   };
 
   try {
-    SystemControl.findOneAndUpdate(query, upsertData, { upsert: true });
+    SystemControl.findOneAndUpdate(
+      query,
+      upsertData,
+      { upsert: true },
+      (err) => {
+        if (err) console.log(err);
+      }
+    );
     mqttClient.publish(topic, payload);
     res.status(200).send("Success set relay status");
   } catch (error) {
