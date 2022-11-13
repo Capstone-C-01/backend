@@ -4,7 +4,6 @@ import User from "../models/user";
 const router = Router();
 
 router.post("/", function (req, res) {
-  console.log(req.body);
   var personData = req.body;
 
   if (
@@ -21,7 +20,6 @@ router.post("/", function (req, res) {
           var c;
           User.findOne({}, function (err, data) {
             if (data) {
-              console.log("if");
               c = data.unique_id + 1;
             } else {
               c = 1;

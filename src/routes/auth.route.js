@@ -29,14 +29,12 @@ router.post(
         res.status(500).send({ message: err });
         return;
       }
-      res
-        .status(200)
-        .send({
-          id: user._id,
-          username: user.username,
-          email: user.email,
-          token: token,
-        });
+      res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        token: token,
+      });
     });
   }
 );
@@ -63,8 +61,6 @@ router.post("/signin", (req, res) => {
       return res.status(401).send({ message: "Invalid Password!" });
     }
 
-    console.log(user);
-
     var token = jsonwebtoken.sign({ id: user.id }, authConfig.secret, {
       expiresIn: 86400, // 24 hours
     });
@@ -81,7 +77,6 @@ router.post("/signin", (req, res) => {
 });
 
 router.post("/signout", (req, res, next) => {
-  console.log(req);
   try {
     req.session = null;
     return res.status(200).send({ message: "You've been signed out!" });
