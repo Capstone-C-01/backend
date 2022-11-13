@@ -50,13 +50,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mqttClient = setupMQTT([
-  "/dev/sensors/add",
-  "/dev/sensors/add/response",
-  "/dev/sensors/control",
-  "dev/sensors/tds",
-  "dev/+/relay/+",
-]);
+const mqttClient = setupMQTT(["dev/+/relay/+", "dev/+/sensors"]);
 
 app.use(withMQTT(mqttClient));
 

@@ -34,17 +34,30 @@ export default function setupMQTT(topics) {
   });
 
   mqttClient.on("message", (topic, payload) => {
-    switch (topic) {
-      case "/dev/sensors/add":
-        try {
-          const payloadParsed = JSON.parse(payload.toString());
-          addSensorsData(mqttClient, payloadParsed);
-        } catch (error) {
-          console.log(error);
+    if (topic.includes("sensors")) {
+      const device_id = topic.match(/esp32_[\d]+/g)[0];
+
+      switch (topic) {
+        case `dev/${device_id}/sensors`: {
+          try {
+            const parsedPayload = payload.toString().split(",");
+            const sensorsJson = {
+              user_id: "aldoarya",
+              device_id: device_id,
+              lamp_status: "on",
+              water_level: 75,
+              ph_data: parsedPayload[0],
+              tds_data: parsedPayload[1],
+            };
+            addSensorsData(mqttClient, sensorsJson);
+          } catch (error) {
+            console.log(error);
+          }
+          break;
         }
-        break;
-      default:
-        console.log(topic, payload.toString());
+        default:
+          console.log(topic, payload.toString());
+      }
     }
   });
 

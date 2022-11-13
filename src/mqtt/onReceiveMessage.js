@@ -14,9 +14,9 @@ export const addSensorsData = (mqttClient, data) => {
     if (err) {
       console.log(err.message);
       mqttClient.publish(
-        "/dev/sensors/add/response",
+        `dev/${data.device_id}/sensors/response`,
         `Fail to add sensors data. Reason: ${err.message}`
       );
-    } else mqttClient.publish("/dev/sensors/add/response", "Succesfully added Sensors data");
+    } else mqttClient.publish(`dev/${data.device_id}/sensors/response`, "Succesfully added Sensors data");
   });
 };
