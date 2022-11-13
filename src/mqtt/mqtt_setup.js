@@ -42,10 +42,10 @@ export default function setupMQTT(topics) {
           try {
             const parsedPayload = payload.toString().split(",");
             const sensorsJson = {
-              user_id: "aldoarya",
-              device_id: device_id,
-              lamp_status: "on",
-              water_level: 75,
+              user_id: "aldoarya", // Temp
+              device_id: device_id, // Temp
+              lamp_status: "on", // Temp
+              water_level: 75, // Temp
               ph_data: parsedPayload[0],
               tds_data: parsedPayload[1],
             };

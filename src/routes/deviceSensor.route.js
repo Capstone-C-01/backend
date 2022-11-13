@@ -51,7 +51,6 @@ router.post("/relay", function (req, res) {
     mqttClient.publish(topic, payload);
     res.status(200).send("Success set relay status");
   } catch (error) {
-    console.log(error);
     res.status(500).send("Something wrong when sending data to device");
   }
 });
