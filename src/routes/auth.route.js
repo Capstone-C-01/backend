@@ -15,11 +15,12 @@ router.post(
     const user = new User({
       username: req.body.username,
       email: req.body.email,
+      device_id: "",
       password: bcryptjs.hashSync(req.body.password, 8),
     });
 
     var token = jsonwebtoken.sign({ id: user.id }, authConfig.secret, {
-      expiresIn: 86400, // 24 hours
+      expiresIn: 1800,
     });
 
     req.session.token = token;
@@ -62,7 +63,7 @@ router.post("/signin", (req, res) => {
     }
 
     var token = jsonwebtoken.sign({ id: user.id }, authConfig.secret, {
-      expiresIn: 86400, // 24 hours
+      expiresIn: 1800,
     });
 
     req.session.token = token;
@@ -85,8 +86,31 @@ router.post("/signout", (req, res, next) => {
   }
 });
 
-router.post("/check-token", (req, res) => {
-  authJwt.validateTokenFE(req, res);
+router.post("/check-token", [authJwt.verifyToken], (req, res) => {
+  const userId = req.userId;
+
+  User.findById(userId, "email device_id username _id").exec((err, user) => {
+    if (err) {
+      res.status(404).send({ message: "User not Found for given token" });
+    }
+
+    res.status(200).send(user);
+  });
+});
+
+router.put("/upsert", [authJwt.verifyToken], (req, res) => {
+  const userId = req.userId;
+
+  const { device_id } = req.body;
+  const query = { _id: userId };
+  const upsertData = {
+    device_id: device_id,
+  };
+
+  User.findOneAndUpdate(query, upsertData, { upsert: true }, function (err) {
+    if (err) return res.status(500).send({ error: err });
+    return res.send("Succesfully saved.");
+  });
 });
 
 export default router;
