@@ -15,7 +15,6 @@ router.post(
     const user = new User({
       username: req.body.username,
       email: req.body.email,
-      device_id: "",
       password: bcryptjs.hashSync(req.body.password, 8),
     });
 
@@ -35,6 +34,7 @@ router.post(
         username: user.username,
         email: user.email,
         token: token,
+        device_id: user.device_id,
       });
     });
   }
@@ -73,6 +73,7 @@ router.post("/signin", (req, res) => {
       username: user.username,
       email: user.email,
       token: token,
+      device_id: user.device_id,
     });
   });
 });
@@ -94,22 +95,12 @@ router.post("/check-token", [authJwt.verifyToken], (req, res) => {
       res.status(404).send({ message: "User not Found for given token" });
     }
 
-    res.status(200).send(user);
-  });
-});
-
-router.put("/upsert", [authJwt.verifyToken], (req, res) => {
-  const userId = req.userId;
-
-  const { device_id } = req.body;
-  const query = { _id: userId };
-  const upsertData = {
-    device_id: device_id,
-  };
-
-  User.findOneAndUpdate(query, upsertData, { upsert: true }, function (err) {
-    if (err) return res.status(500).send({ error: err });
-    return res.send("Succesfully saved.");
+    res.status(200).send({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      device_id: user.device_id,
+    });
   });
 });
 

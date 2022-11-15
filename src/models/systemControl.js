@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const systemControlSchema = new Schema(
   {
-    user_id: { type: String, required: true },
+    user_id: { type: Schema.Types.ObjectId, ref: "users", required: true },
     device_id: { type: String, required: true },
     plant_name: { type: String, required: true },
     date_planted: { type: Date, required: true },

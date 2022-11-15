@@ -70,7 +70,6 @@ const mqttClient = setupMQTT([
 app.use(withMQTT(mqttClient));
 
 app.use("/sensors", routes.deviceSensor);
-app.use("/users", routes.user);
 app.use("/control", routes.systemControl);
 app.use("/auth", routes.auth);
 app.use("/", (req, res, next) => {
